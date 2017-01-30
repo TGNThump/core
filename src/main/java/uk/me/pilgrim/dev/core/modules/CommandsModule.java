@@ -13,6 +13,7 @@ import uk.me.pilgrim.dev.core.commands.arguments.CharArgument;
 import uk.me.pilgrim.dev.core.commands.arguments.EnumArgument;
 import uk.me.pilgrim.dev.core.commands.arguments.NumberArgument;
 import uk.me.pilgrim.dev.core.commands.arguments.StringArgument;
+import uk.me.pilgrim.dev.core.config.ConfigCommands;
 import uk.me.pilgrim.dev.core.foundation.GuiceModule;
 
 /**
@@ -29,6 +30,8 @@ public class CommandsModule extends GuiceModule{
 		commandService.addArgumentParser(new CharArgument());
 		commandService.addArgumentParser(new NumberArgument());
 		commandService.addArgumentParser(new StringArgument());
+		
+		commandService.registerCommands(new ConfigCommands());
 		
 		bind(MethodCommandService.class).toInstance(commandService);
 

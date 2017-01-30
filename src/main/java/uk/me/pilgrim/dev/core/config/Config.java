@@ -119,6 +119,14 @@ public abstract class Config {
 		}
 	}
 	
+	public void reload(){
+		create();
+		init();
+		load();
+		setDefaults();
+		save();
+	}
+	
 	public abstract void setDefaults();
 	
 	public <T> T setDefault(T param, T value){

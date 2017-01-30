@@ -9,19 +9,21 @@ package uk.me.pilgrim.dev.core;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import uk.me.pilgrim.dev.core.config.CoreConfig;
-import uk.me.pilgrim.dev.core.events.InitEvent;
-import uk.me.pilgrim.dev.core.foundation.Project;
-import uk.me.pilgrim.dev.core.modules.CoreModule;
-import uk.me.pilgrim.dev.core.util.logger.TerraLogger;
-import uk.me.pilgrim.dev.core.util.text.Text;
-
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Stage;
+
+import uk.me.pilgrim.dev.core.config.CoreConfig;
+import uk.me.pilgrim.dev.core.events.ConfigurationReloadEvent;
+import uk.me.pilgrim.dev.core.events.InitEvent;
+import uk.me.pilgrim.dev.core.foundation.Project;
+import uk.me.pilgrim.dev.core.modules.CoreModule;
+import uk.me.pilgrim.dev.core.util.logger.TerraLogger;
+import uk.me.pilgrim.dev.core.util.text.Text;
 
 
 /**
@@ -53,6 +55,11 @@ public class Core{
 	
 	public void fireEvent(Object event){
 		events.post(event);
+	}
+	
+	@Subscribe
+	public void onConfigReload(ConfigurationReloadEvent event){
+		config.reload();
 	}
 	
 	// Static
