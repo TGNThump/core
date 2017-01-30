@@ -1,7 +1,5 @@
 package uk.me.pilgrim.dev.core.commands;
 
-import com.sun.webkit.plugin.Plugin;
-
 import uk.me.pilgrim.dev.core.commands.annotations.Command;
 import uk.me.pilgrim.dev.core.commands.arguments.ArgumentParser;
 import uk.me.pilgrim.dev.core.commands.exceptions.CommandException;
