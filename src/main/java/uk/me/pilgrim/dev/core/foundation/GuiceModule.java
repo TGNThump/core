@@ -8,8 +8,6 @@ package uk.me.pilgrim.dev.core.foundation;
 
 import com.google.inject.AbstractModule;
 
-
-
 /**
  * @author Benjamin Pilgrim &lt;ben@pilgrim.me.uk&gt;
  */

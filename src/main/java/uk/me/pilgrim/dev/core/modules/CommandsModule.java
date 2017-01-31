@@ -6,6 +6,10 @@
  */
 package uk.me.pilgrim.dev.core.modules;
 
+import javax.inject.Singleton;
+
+import com.google.inject.Provides;
+
 import uk.me.pilgrim.dev.core.commands.CommandHandler;
 import uk.me.pilgrim.dev.core.commands.CommandService;
 import uk.me.pilgrim.dev.core.commands.arguments.BooleanArgument;
@@ -21,8 +25,7 @@ import uk.me.pilgrim.dev.core.foundation.GuiceModule;
  */
 public class CommandsModule extends GuiceModule{
 	
-	@Override
-	protected void configure() {
+	@Provides @Singleton CommandService provideCommandService(){
 		CommandService commandService = new CommandHandler();
 		
 		commandService.addArgumentParser(new EnumArgument());
@@ -33,8 +36,7 @@ public class CommandsModule extends GuiceModule{
 		
 		commandService.register(new ConfigCommands());
 		
-		bind(CommandService.class).toInstance(commandService);
-
+		return commandService;
 	}
 	
 }

@@ -26,11 +26,6 @@ public class EventsModule extends GuiceModule{
 		bind(EventBus.class).toInstance(new InjectingEventBus(new EventsExceptionHandler()));
 	}
 	
-//	@Subscribe
-//	public void onEvent(Object event){
-//		TerraLogger.debug("Event: " + event.getClass().getSimpleName());
-//	}
-	
 	@Subscribe
 	public void onEvent(DeadEvent event){
 		TerraLogger.debug("DEAD EVENT: " + event.getEvent().getClass().getSimpleName());

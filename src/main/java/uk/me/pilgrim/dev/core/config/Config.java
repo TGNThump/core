@@ -135,7 +135,7 @@ public abstract class Config {
 	}
 	
 	@ConfigSerializable
-	protected static class Category {
+	public static class Category {
 		
 		private void injectConfig(){
 			Core.getInjector().injectMembers(this);
