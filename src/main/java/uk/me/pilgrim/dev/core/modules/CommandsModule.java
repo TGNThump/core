@@ -7,7 +7,7 @@
 package uk.me.pilgrim.dev.core.modules;
 
 import uk.me.pilgrim.dev.core.commands.CommandHandler;
-import uk.me.pilgrim.dev.core.commands.MethodCommandService;
+import uk.me.pilgrim.dev.core.commands.CommandService;
 import uk.me.pilgrim.dev.core.commands.arguments.BooleanArgument;
 import uk.me.pilgrim.dev.core.commands.arguments.CharArgument;
 import uk.me.pilgrim.dev.core.commands.arguments.EnumArgument;
@@ -23,7 +23,7 @@ public class CommandsModule extends GuiceModule{
 	
 	@Override
 	protected void configure() {
-		MethodCommandService commandService = new CommandHandler();
+		CommandService commandService = new CommandHandler();
 		
 		commandService.addArgumentParser(new EnumArgument());
 		commandService.addArgumentParser(new BooleanArgument());
@@ -31,9 +31,9 @@ public class CommandsModule extends GuiceModule{
 		commandService.addArgumentParser(new NumberArgument());
 		commandService.addArgumentParser(new StringArgument());
 		
-		commandService.registerCommands(new ConfigCommands());
+		commandService.register(new ConfigCommands());
 		
-		bind(MethodCommandService.class).toInstance(commandService);
+		bind(CommandService.class).toInstance(commandService);
 
 	}
 	

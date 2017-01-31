@@ -11,7 +11,7 @@ import uk.me.pilgrim.dev.core.util.Context;
  * A service that provides the ability to register methods in an object as {@link Command}.
  * @author Benjamin Pilgrim &lt;ben@pilgrim.me.uk&gt;
  */
-public interface MethodCommandService {
+public interface CommandService {
 	
 	/**
 	 * Registers all {@link Command} methods in this instance.
@@ -19,7 +19,7 @@ public interface MethodCommandService {
 	 * @param handler The method to register.
 	 * @throws IllegalArgumentException if the parameter "plugin" is not a {@link Plugin}!
 	 */
-	public void registerCommands(Object handler) throws IllegalArgumentException;
+	public void register(Object handler) throws IllegalArgumentException;
 
 	/**
 	 * Registers an {@link ArgumentParser}, later added parsers with have a higher priority.
@@ -37,8 +37,8 @@ public interface MethodCommandService {
 	 */
 	public ArgumentParser getArgumentParser(Class<?> type) throws IllegalArgumentException;
 	
-	public CommandResult processCommand(Context context, String command) throws CommandException;
+	public CommandResult processCommand(Context context, String command) throws CommandException, Throwable;
 	
-	public CommandResult processCommand(CommandSource source, String command) throws CommandException;
+	public CommandResult processCommand(CommandSource source, String command) throws CommandException, Throwable;
 	
 }

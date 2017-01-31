@@ -89,6 +89,11 @@ public class Core{
 		if (injector == null) buildInjector();
 		return injector;
 	}
+	
+	public static <T> T inject(T object){
+		getInjector().injectMembers(object);
+		return object;
+	}
 
 	public static void loadConfig() {
 		config = new CoreConfig();
@@ -111,4 +116,9 @@ public class Core{
 		return injector.getInstance(name);
 	}
 	
+	public static class Events{
+		public static void fire(Object event){
+			Core.get(EventBus.class).post(event);
+		}
+	}
 }

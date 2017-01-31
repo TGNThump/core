@@ -29,10 +29,10 @@ import uk.me.pilgrim.dev.core.util.Context;
 import uk.me.pilgrim.dev.core.util.logger.TerraLogger;
 import uk.me.pilgrim.dev.core.util.text.Text;
 
-public class CommandHandler implements MethodCommandService {
+public class CommandHandler implements CommandService {
 	
 	private static final ObjectArgument DEFAULT_ARG_PARSER = new ObjectArgument();
-		
+	
 	private List<Object> handlers = Lists.newArrayList();
 	private SetMultimap<String, MethodCommand> commands;
 	private Set<String> rootLabels;
@@ -55,7 +55,7 @@ public class CommandHandler implements MethodCommandService {
 	}
 	
 	@Override
-	public void registerCommands(Object handler) {
+	public void register(Object handler) {		
 //		Plugin p = plugin.getClass().getAnnotation(Plugin.class);
 //		checkNotNull(p, "plugin");
 		
@@ -120,7 +120,7 @@ public class CommandHandler implements MethodCommandService {
 		return processCommand(context, command);
 	}
 	
-	public CommandResult processCommand(Context context, String command) {
+	public CommandResult processCommand(Context context, String command) throws CommandException {
 		List<ArgumentException> exceptions = Lists.newArrayList();
 		
 		CommandSource source = context.get(CommandSource.class);

@@ -3,8 +3,6 @@ package uk.me.pilgrim.dev.core.commands;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static uk.me.pilgrim.dev.core.util.Conditions.notNull;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.InvalidParameterException;
@@ -26,6 +24,7 @@ import uk.me.pilgrim.dev.core.commands.annotations.Usage;
 import uk.me.pilgrim.dev.core.commands.arguments.ArgumentParser;
 import uk.me.pilgrim.dev.core.commands.exceptions.ArgumentException;
 import uk.me.pilgrim.dev.core.commands.exceptions.AuthorizationException;
+import uk.me.pilgrim.dev.core.commands.exceptions.CommandException;
 import uk.me.pilgrim.dev.core.commands.sources.CommandSource;
 import uk.me.pilgrim.dev.core.util.Context;
 import uk.me.pilgrim.dev.core.util.text.Text;
@@ -151,7 +150,7 @@ public class MethodCommand {
 		
 	}
 		
-	public CommandResult execute(Context context, String args) throws ArgumentException{
+	public CommandResult execute(Context context, String args) throws CommandException{
 
 		List<Object> cmdParams;
 		CommandSource source = context.get(CommandSource.class);
@@ -185,30 +184,32 @@ public class MethodCommand {
 				Throwable c = e.getCause();
 				if (c == null) c = e;
 				
-				String ret = "";
-				
-//				Text.Builder builder = Text.builder();
-				ret += "Error: ";
-				
-				StringWriter sw = new StringWriter();
-				c.printStackTrace(new PrintWriter(sw));
-				ret += sw.toString();
-				
+				String reply = "";
+				StackTraceElement[] stackTrace = c.getStackTrace();
+				reply += c;
+				reply += "\n";
+				for (StackTraceElement s : stackTrace){
+					reply += " at " + s;
+					
+					reply += "\n";
+				}			
 				
 				source.sendMessage("An error occoured while trying to execute this command.");
-				source.sendMessage(ret);
+				source.sendMessage("```" + reply + "```");
 				c.printStackTrace();
 			} else {
-				
-				String ret = "";
-				ret += "Error: ";
-				
-				StringWriter sw = new StringWriter();
-				e.printStackTrace(new PrintWriter(sw));
-				ret += sw.toString();
-				
+				String reply = "";
+				StackTraceElement[] stackTrace = e.getStackTrace();
+				reply += e;
+				reply += "\n";
+				for (StackTraceElement s : stackTrace){
+					reply += " at " + s;
+					
+					reply += "\n";
+				}
+								
 				source.sendMessage("An error occoured while trying to execute this command.");
-				source.sendMessage(ret);
+				source.sendMessage("```" + reply + "```");
 				e.printStackTrace();
 			}			
 		}

@@ -10,6 +10,8 @@ import com.google.common.eventbus.DeadEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
+import uk.me.pilgrim.dev.core.events.EventsExceptionHandler;
+import uk.me.pilgrim.dev.core.events.InjectingEventBus;
 import uk.me.pilgrim.dev.core.foundation.GuiceModule;
 import uk.me.pilgrim.dev.core.util.logger.TerraLogger;
 
@@ -21,7 +23,7 @@ public class EventsModule extends GuiceModule{
 	
 	@Override
 	protected void configure() {
-		bind(EventBus.class).toInstance(new EventBus());
+		bind(EventBus.class).toInstance(new InjectingEventBus(new EventsExceptionHandler()));
 	}
 	
 //	@Subscribe
