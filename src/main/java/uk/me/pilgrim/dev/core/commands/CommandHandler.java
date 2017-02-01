@@ -16,7 +16,6 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
-import uk.me.pilgrim.dev.core.Core;
 import uk.me.pilgrim.dev.core.commands.annotations.Command;
 import uk.me.pilgrim.dev.core.commands.arguments.ArgumentParser;
 import uk.me.pilgrim.dev.core.commands.arguments.ObjectArgument;
@@ -77,9 +76,7 @@ public class CommandHandler implements CommandService {
 			if (!m.isAnnotationPresent(Command.class)) continue;
 			MethodCommand command = new MethodCommand(handler, m, this);
 			
-			if (Core.isDevMode()){
-				TerraLogger.info("Registered Command '<h>" + (Text.implode(command.getPath(), " ")) + "<r>'");
-			}
+			TerraLogger.debug("Registered Command '<h>" + (Text.implode(command.getPath(), " ")) + "<r>'");
 						
 			for (String path : command.getAliasPaths()){
 				commands.put(path, command);
