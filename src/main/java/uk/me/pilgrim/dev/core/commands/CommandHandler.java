@@ -16,6 +16,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
+import uk.me.pilgrim.dev.core.Core;
 import uk.me.pilgrim.dev.core.commands.annotations.Command;
 import uk.me.pilgrim.dev.core.commands.arguments.ArgumentParser;
 import uk.me.pilgrim.dev.core.commands.arguments.ObjectArgument;
@@ -98,6 +99,7 @@ public class CommandHandler implements CommandService {
 			argumentParsers = Lists.newArrayList();
 		}
 		
+		Core.inject(parser);
 		argumentParsers.add(parser);
 	}
 	

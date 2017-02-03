@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -18,7 +17,6 @@ import com.google.inject.Module;
 import com.google.inject.Stage;
 
 import uk.me.pilgrim.dev.core.config.CoreConfig;
-import uk.me.pilgrim.dev.core.events.ConfigurationReloadEvent;
 import uk.me.pilgrim.dev.core.events.InitEvent;
 import uk.me.pilgrim.dev.core.foundation.Project;
 import uk.me.pilgrim.dev.core.modules.CoreModule;
@@ -43,6 +41,7 @@ public class Core{
 		this.events = events;
 		
 		events.register(this);
+		config.registerEvents();
 		
 		for (Project project : projects.values()){
 			events.register(project);
@@ -55,11 +54,6 @@ public class Core{
 	
 	public void fireEvent(Object event){
 		events.post(event);
-	}
-	
-	@Subscribe
-	public void onConfigReload(ConfigurationReloadEvent event){
-		config.reload();
 	}
 	
 	// Static

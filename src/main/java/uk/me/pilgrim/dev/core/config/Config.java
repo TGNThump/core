@@ -9,6 +9,9 @@ package uk.me.pilgrim.dev.core.config;
 import java.io.File;
 import java.io.IOException;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
 import ninja.leaping.configurate.SimpleConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -17,6 +20,8 @@ import ninja.leaping.configurate.objectmapping.ObjectMapper;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import uk.me.pilgrim.dev.core.Core;
+import uk.me.pilgrim.dev.core.events.ConfigurationReloadEvent;
+import uk.me.pilgrim.dev.core.events.ConfigurationSaveEvent;
 import uk.me.pilgrim.dev.core.util.logger.TerraLogger;
 
 /**
@@ -29,6 +34,10 @@ public abstract class Config {
 	
 	private ObjectMapper<Config>.BoundInstance configMapper;
 	private ConfigurationLoader<CommentedConfigurationNode> loader;
+	
+	public void registerEvents(){
+		Core.get(EventBus.class).register(this);
+	}
 	
 	public Config(String folder, String configName){
 		folder = folder + "/";
@@ -78,6 +87,23 @@ public abstract class Config {
 		save();
 	}
 	
+	@Subscribe
+	public void reload(ConfigurationReloadEvent event){
+		reload();
+	}
+	
+	@Subscribe
+	public void save(ConfigurationSaveEvent event){
+		save();
+	}
+	
+	public void reload(){
+		create();
+		load();
+		setDefaults();
+		save();
+	}
+	
 	private void init(){
 		try{
 			this.configMapper = ObjectMapper.forObject(this);
@@ -117,13 +143,6 @@ public abstract class Config {
 			TerraLogger.error("<b>Failed to load config file named <h>" + file.getName() + "<b>.");
 			e.printStackTrace();
 		}
-	}
-	
-	public void reload(){
-		create();
-		load();
-		setDefaults();
-		save();
 	}
 	
 	public abstract void setDefaults();

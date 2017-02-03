@@ -25,6 +25,10 @@ public interface CommandSource {
 	 * @param of
 	 */
 	public void sendMessage(String of);
+	
+	public void info(String content);
+	
+	public void error(String content);
 
 	/**
 	 * @param usages
