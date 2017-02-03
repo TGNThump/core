@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import uk.me.pilgrim.dev.core.commands.exceptions.ArgumentException;
+import uk.me.pilgrim.dev.core.util.Context;
 import uk.me.pilgrim.dev.core.util.text.Text;
 
 /**
@@ -33,6 +34,10 @@ public interface ArgumentParser {
 	 * @throws ArgumentException If the argument is invalid for that type.
 	 * @throws IllegalArgumentException If the type is not supported by this {@link ArgumentParser}. <i>({@link #isTypeSupported(Class)} returns <code>false</code> for this type)</i>
 	 */
+	public default <T> T parseArgument(Context context, Class<T> type, String arg) throws ArgumentException, IllegalArgumentException{
+		return parseArgument(type, arg);
+	}
+
 	public <T> T parseArgument(Class<T> type, String arg) throws ArgumentException, IllegalArgumentException;
 	
 	/**

@@ -8,8 +8,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import uk.me.pilgrim.dev.core.commands.exceptions.ArgumentException;
-import uk.me.pilgrim.dev.core.util.text.ConsoleColor;
-import uk.me.pilgrim.dev.core.util.text.Text;
 
 
 public class ObjectArgument implements ArgumentParser {
@@ -34,7 +32,7 @@ public class ObjectArgument implements ArgumentParser {
 		try{
 			return type.getConstructor(String.class).newInstance(arg);
 		} catch (Exception ex2){
-			throw new ArgumentException(Text.of(ConsoleColor.RED, "Expected a ", ConsoleColor.BLUE, getArgumentTypeName(type), ConsoleColor.RED,  ", got '", ConsoleColor.MAGENTA, arg, ConsoleColor.RED, "'"), arg, this, type);
+			throw new ArgumentException("Expected a " + getArgumentTypeName(type) + ", got '" + arg + "'", arg, this, type);
 		}
 	}
 	

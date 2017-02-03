@@ -18,6 +18,7 @@ import uk.me.pilgrim.dev.core.commands.arguments.ArgumentParser;
 import uk.me.pilgrim.dev.core.commands.exceptions.ArgumentException;
 import uk.me.pilgrim.dev.core.commands.exceptions.AuthorizationException;
 import uk.me.pilgrim.dev.core.commands.sources.CommandSource;
+import uk.me.pilgrim.dev.core.util.Context;
 
 /**
  * A {@link java.lang.reflect.Parameter} wrapper that collects information about a command parameter.
@@ -95,7 +96,9 @@ public class Parameter {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String parse(CommandSource source, String args) throws ArgumentException, AuthorizationException{
+	public String parse(Context context, String args) throws ArgumentException, AuthorizationException{
+		
+		CommandSource source = context.get(CommandSource.class);
 		
 		if (!perms.isEmpty()){
 			
@@ -117,25 +120,25 @@ public class Parameter {
 		if (isVarArgs()){
 			if (args.toLowerCase().startsWith("@a")){
 				for (String arg : ap.getAllSuggestions(type, "")){
-					((List<Object>) value).add(ap.parseArgument(type, arg));
+					((List<Object>) value).add(ap.parseArgument(context, type, arg));
 				}
 				return args.substring(2);
 			}
 			
 			if (ap.getArgumentEnd(args) > 0){
-				((List<Object>) value).add(ap.parseArgument(type, args.substring(0, ap.getArgumentEnd(args))));
+				((List<Object>) value).add(ap.parseArgument(context, type, args.substring(0, ap.getArgumentEnd(args))));
 				return args.substring(ap.getArgumentEnd(args));
 			} else {
-				((List<Object>) value).add(ap.parseArgument(type, args));
+				((List<Object>) value).add(ap.parseArgument(context, type, args));
 				return "";
 			}
 		}
 		
 		if (ap.getArgumentEnd(args) > 0){
-			value = ap.parseArgument(type, args.substring(0, ap.getArgumentEnd(args)));
+			value = ap.parseArgument(context, type, args.substring(0, ap.getArgumentEnd(args)));
 			return args.substring(ap.getArgumentEnd(args));
 		} else {
-			value = ap.parseArgument(type, args);
+			value = ap.parseArgument(context, type, args);
 			return "";
 		}
 	}

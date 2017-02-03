@@ -218,7 +218,6 @@ public class MethodCommand {
 	
 	private List<Object> parseArgs(Context context, String args) throws ArgumentException, AuthorizationException{		
 		List<Object> parsedArgs = Lists.newArrayList();
-		CommandSource source = context.get(CommandSource.class);
 		parsedArgs.add(context);
 			
 		for (Parameter param : getParameters()){
@@ -240,7 +239,7 @@ public class MethodCommand {
 					}
 
 					if (flags.containsKey(flag)){
-						args = flags.get(flag).parse(source, args);
+						args = flags.get(flag).parse(context, args);
 					} else throw new ArgumentException("'" + flag + "' is not a valid flag for this command.", flag, null, null);
 					continue;
 				}
@@ -252,7 +251,7 @@ public class MethodCommand {
 					break;
 				}
 				
-				args = param.parse(source, args);
+				args = param.parse(context, args);
 				if (!param.isVarArgs()) break;
 			}
 		}
@@ -271,7 +270,7 @@ public class MethodCommand {
 				}
 
 				if (flags.containsKey(flag)){
-					args = flags.get(flag).parse(source, args);
+					args = flags.get(flag).parse(context, args);
 				} else throw new ArgumentException("'" + flag + "' is not a valid flag for this command.", flag, null, null);
 				continue;
 			}
