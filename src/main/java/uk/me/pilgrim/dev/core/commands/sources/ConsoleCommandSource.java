@@ -28,5 +28,21 @@ public class ConsoleCommandSource implements CommandSource {
 	public void sendMessage(String of) {
 		TerraLogger.info(of);
 	}
+
+	/* (non-Javadoc)
+	 * @see uk.me.pilgrim.dev.core.commands.sources.CommandSource#info(java.lang.String)
+	 */
+	@Override
+	public void info(String content) {
+		TerraLogger.info(content);
+	}
+
+	/* (non-Javadoc)
+	 * @see uk.me.pilgrim.dev.core.commands.sources.CommandSource#error(java.lang.String)
+	 */
+	@Override
+	public void error(String content) {
+		TerraLogger.error(content);
+	}
 	
 }

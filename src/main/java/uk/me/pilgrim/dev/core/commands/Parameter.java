@@ -133,8 +133,8 @@ public class Parameter {
 				return "";
 			}
 		}
-		
-		if (ap.getArgumentEnd(args) > 0){
+		Integer argEnd = ap.getArgumentEnd(args);
+		if (argEnd > 0){
 			value = ap.parseArgument(context, type, args.substring(0, ap.getArgumentEnd(args)));
 			return args.substring(ap.getArgumentEnd(args));
 		} else {

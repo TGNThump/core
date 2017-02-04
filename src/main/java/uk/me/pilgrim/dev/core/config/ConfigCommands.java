@@ -11,6 +11,7 @@ import com.google.common.eventbus.EventBus;
 import uk.me.pilgrim.dev.core.Core;
 import uk.me.pilgrim.dev.core.commands.CommandResult;
 import uk.me.pilgrim.dev.core.commands.annotations.Command;
+import uk.me.pilgrim.dev.core.commands.annotations.Perm;
 import uk.me.pilgrim.dev.core.commands.sources.CommandSource;
 import uk.me.pilgrim.dev.core.events.ConfigurationReloadEvent;
 import uk.me.pilgrim.dev.core.events.ConfigurationSaveEvent;
@@ -22,11 +23,13 @@ import uk.me.pilgrim.dev.core.util.Context;
 public class ConfigCommands {
 	
 	@Command("config")
+	@Perm("core.config")
 	public CommandResult onConfig(Context context){
 		return CommandResult.FAILURE;
 	}
 	
 	@Command("config reload")
+	@Perm("core.config.reload")
 	public CommandResult onConfigReload(Context context){
 		Core.get(EventBus.class).post(new ConfigurationReloadEvent());
 		context.get(CommandSource.class).sendMessage("Configuration Reloaded.");
@@ -34,6 +37,7 @@ public class ConfigCommands {
 	}
 	
 	@Command("config save")
+	@Perm("core.config.save")
 	public CommandResult onConfigSave(Context context){
 		Core.get(EventBus.class).post(new ConfigurationSaveEvent());
 		context.get(CommandSource.class).sendMessage("Configuration Saved.");

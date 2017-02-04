@@ -14,14 +14,14 @@ public class StringArgument implements ArgumentParser{
 	public <T> T parseArgument(Class<T> type, String arg) throws ArgumentException, IllegalArgumentException {
 		checkTypeSupported(type);
 		
-		if (arg.startsWith("'") || arg.startsWith("\"")) return (T) arg.substring(1, arg.length());
+		if (arg.startsWith("'") || arg.startsWith("\"")) return (T) arg.substring(1, arg.length()-1);
 		return (T) arg;
 	}
 	
 	@Override
 	public int getArgumentEnd(String arguments){
-		if (arguments.startsWith("'")) return arguments.indexOf("'");
-		if (arguments.startsWith("\"")) return arguments.indexOf("\"");
+		if (arguments.startsWith("'")) return arguments.substring(1).indexOf("'")+2;
+		if (arguments.startsWith("\"")) return arguments.substring(1).indexOf("\"")+2;
 		return arguments.indexOf(' ');
 	}
 	
