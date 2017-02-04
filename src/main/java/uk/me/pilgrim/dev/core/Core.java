@@ -18,6 +18,7 @@ import com.google.inject.Stage;
 
 import uk.me.pilgrim.dev.core.config.CoreConfig;
 import uk.me.pilgrim.dev.core.events.InitEvent;
+import uk.me.pilgrim.dev.core.events.PreInitEvent;
 import uk.me.pilgrim.dev.core.foundation.Project;
 import uk.me.pilgrim.dev.core.modules.CoreModule;
 import uk.me.pilgrim.dev.core.util.logger.TerraLogger;
@@ -49,6 +50,7 @@ public class Core{
 			project.registerChildren(events);
 		}
 		
+		events.post(new PreInitEvent());
 		events.post(new InitEvent());
 	}
 	

@@ -40,7 +40,6 @@ public class Project extends GuiceModule{
 	
 	protected Module registerChild(Module child){
 		children.add(child);
-		inject(child);
 		install(child);
 		return child;	
 	}
