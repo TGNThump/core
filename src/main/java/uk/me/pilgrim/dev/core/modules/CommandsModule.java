@@ -8,6 +8,8 @@ package uk.me.pilgrim.dev.core.modules;
 
 import javax.inject.Singleton;
 
+import com.google.common.eventbus.Subscribe;
+import com.google.inject.Inject;
 import com.google.inject.Provides;
 
 import uk.me.pilgrim.dev.core.commands.CommandHandler;
@@ -18,6 +20,7 @@ import uk.me.pilgrim.dev.core.commands.arguments.EnumArgument;
 import uk.me.pilgrim.dev.core.commands.arguments.NumberArgument;
 import uk.me.pilgrim.dev.core.commands.arguments.StringArgument;
 import uk.me.pilgrim.dev.core.config.ConfigCommands;
+import uk.me.pilgrim.dev.core.events.PreInitEvent;
 import uk.me.pilgrim.dev.core.foundation.GuiceModule;
 
 /**
@@ -25,14 +28,20 @@ import uk.me.pilgrim.dev.core.foundation.GuiceModule;
  */
 public class CommandsModule extends GuiceModule{
 	
+	@Inject
+	private CommandService commands;
+	
+	@Subscribe
+	public void onPreInit(PreInitEvent event){
+		commands.addArgumentParser(new EnumArgument());
+		commands.addArgumentParser(new BooleanArgument());
+		commands.addArgumentParser(new CharArgument());
+		commands.addArgumentParser(new NumberArgument());
+		commands.addArgumentParser(new StringArgument());
+	}
+	
 	@Provides @Singleton CommandService provideCommandService(){
 		CommandService commandService = new CommandHandler();
-		
-		commandService.addArgumentParser(new EnumArgument());
-		commandService.addArgumentParser(new BooleanArgument());
-		commandService.addArgumentParser(new CharArgument());
-		commandService.addArgumentParser(new NumberArgument());
-		commandService.addArgumentParser(new StringArgument());
 		
 		commandService.register(new ConfigCommands());
 		
