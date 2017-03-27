@@ -6,16 +6,22 @@
  */
 package uk.me.pilgrim.dev.core;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Stage;
 
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import uk.me.pilgrim.dev.core.config.CoreConfig;
 import uk.me.pilgrim.dev.core.events.InitEvent;
 import uk.me.pilgrim.dev.core.events.PreInitEvent;
@@ -92,6 +98,19 @@ public class Core{
 	}
 
 	public static void loadConfig() {
+		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Date.class), new TypeSerializer<Date>(){
+
+			@Override
+			public Date deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+				return new Date(value.getLong());
+			}
+
+			@Override
+			public void serialize(TypeToken<?> type, Date obj, ConfigurationNode value) throws ObjectMappingException {
+				value.setValue(obj.getTime());
+			}
+			
+		});
 		config = new CoreConfig();
 		devMode = config.devMode;
 	}
